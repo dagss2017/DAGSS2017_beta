@@ -4,6 +4,8 @@
 package es.uvigo.esei.dagss.dominio.daos;
 
 import es.uvigo.esei.dagss.dominio.entidades.Farmacia;
+import es.uvigo.esei.dagss.dominio.entidades.Receta;
+import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
@@ -20,5 +22,11 @@ public class FarmaciaDAO extends GenericoDAO<Farmacia> {
         return filtrarResultadoUnico(q);
     }
 
-    // Completar aqui
+    public List<Receta> buscarRecetasPorPaciente(String nTarjetaPaciente) {
+        return em.createQuery(
+                "SELECT r FROM Receta AS r "
+                        + "WHERE r.prescripcion.paciente.numeroTarjetaSanitaria = :nTarjetaPaciente", Receta.class)
+                .setParameter("nTarjetaPaciente", nTarjetaPaciente)
+                .getResultList();
+    }
 }

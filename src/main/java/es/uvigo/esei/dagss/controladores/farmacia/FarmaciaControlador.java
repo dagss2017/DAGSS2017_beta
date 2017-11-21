@@ -6,10 +6,12 @@ package es.uvigo.esei.dagss.controladores.farmacia;
 import es.uvigo.esei.dagss.controladores.autenticacion.AutenticacionControlador;
 import es.uvigo.esei.dagss.dominio.daos.FarmaciaDAO;
 import es.uvigo.esei.dagss.dominio.entidades.Farmacia;
+import es.uvigo.esei.dagss.dominio.entidades.Receta;
 import es.uvigo.esei.dagss.dominio.entidades.TipoUsuario;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -26,7 +28,8 @@ public class FarmaciaControlador implements Serializable {
     private Farmacia farmaciaActual;
     private String nif;
     private String password;
-
+    private String numTarjetaPacienteBuscar; // Numero tarjeta sanitaria del paciente cuyas recetas se quieren buscar
+    
     @Inject
     private AutenticacionControlador autenticacionControlador;
 
@@ -53,6 +56,14 @@ public class FarmaciaControlador implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getNumTarjetaPacienteBuscar() {
+        return numTarjetaPacienteBuscar;
+    }
+
+    public void setNumTarjetaPacienteBuscar(String numTarjetaPacienteBuscar) {
+        this.numTarjetaPacienteBuscar = numTarjetaPacienteBuscar;
     }
 
     public Farmacia getFarmaciaActual() {
@@ -87,5 +98,16 @@ public class FarmaciaControlador implements Serializable {
             }
         }
         return destino;
+    }
+    
+    public void doBuscarRecetasUsuario() {
+        System.out.println("Recetas....");
+        List<Receta> recetas = 
+                farmaciaDAO.buscarRecetasPorPaciente(numTarjetaPacienteBuscar);
+        System.out.println("Recetas....");
+        for (Receta r: recetas) {
+            System.out.println(r.getId());
+        }
+        System.out.println("Fin recetas");
     }
 }
