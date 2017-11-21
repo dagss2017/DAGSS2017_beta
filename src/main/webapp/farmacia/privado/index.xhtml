@@ -18,16 +18,22 @@
             </ui:define>
 
             <ui:define name="contenido">
-                <h:form id="searchForm">
-                    <b:column offset="3" span="6">
-                        <b:panel title="Recetas por paciente" look="primary" collapsible="false">
-                            <b:inputText id="nif" label="Nº tarjeta" value="#{farmaciaControlador.numTarjetaPacienteBuscar}" />
-                            <b:commandButton value="Buscar" action="#{farmaciaControlador.doBuscarRecetasUsuario()}" span="2"/>
-                        </b:panel>
-                    </b:column>
-                </h:form>
+                <b:row>
+                    <h:form id="searchForm">
+                        <b:column offset="3" span="6">
+                            <b:panel title="Recetas por paciente" look="primary" collapsible="false">
+                                <b:inputText id="nif" label="Nº tarjeta" value="#{farmaciaControlador.numTarjetaPacienteBuscar}" />
+                                <b:commandButton value="Buscar" action="#{farmaciaControlador.doBuscarRecetasUsuario()}" span="2"/>
+                            </b:panel>
+                        </b:column>
+                    </h:form>   
+                </b:row>
+                
+                <b:row>
+                    <ui:include src="listado_recetas.xhtml"/>
+                </b:row>
             </ui:define>
-
+            
         </ui:composition>
 
     </body>
