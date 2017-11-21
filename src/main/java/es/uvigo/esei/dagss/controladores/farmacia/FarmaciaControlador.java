@@ -11,6 +11,8 @@ import es.uvigo.esei.dagss.dominio.entidades.TipoUsuario;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -29,6 +31,7 @@ public class FarmaciaControlador implements Serializable {
     private String nif;
     private String password;
     private String numTarjetaPacienteBuscar; // Numero tarjeta sanitaria del paciente cuyas recetas se quieren buscar
+    private List<Receta> listRecetasPaciente;
     
     @Inject
     private AutenticacionControlador autenticacionControlador;
@@ -74,6 +77,14 @@ public class FarmaciaControlador implements Serializable {
         this.farmaciaActual = farmaciaActual;
     }
 
+    public List<Receta> getListRecetasPaciente() {
+        return listRecetasPaciente;
+    }
+
+    public void setListRecetasPaciente(List<Receta> listRecetasPaciente) {
+        this.listRecetasPaciente = listRecetasPaciente;
+    }
+
     private boolean parametrosAccesoInvalidos() {
         return ((nif == null) || (password == null));
     }
@@ -100,14 +111,28 @@ public class FarmaciaControlador implements Serializable {
         return destino;
     }
     
-    public void doBuscarRecetasUsuario() {
-        System.out.println("Recetas....");
-        List<Receta> recetas = 
+    /**
+     * Busca las recetas de un usuario a partir de su número de tarjeta
+     * @return Lista con las recetas válidas del paciente
+     */
+    public String doBuscarRecetasUsuario() {
+        listRecetasPaciente = new ArrayList<>();
+        List<Receta> listaAuxiliar = 
                 farmaciaDAO.buscarRecetasPorPaciente(numTarjetaPacienteBuscar);
-        System.out.println("Recetas....");
-        for (Receta r: recetas) {
-            System.out.println(r.getId());
+        for (Receta r: listaAuxiliar) {
+            if (isRecetaValida(r))
+                listRecetasPaciente.add(r);
         }
-        System.out.println("Fin recetas");
+        
+        return "index";
+    }
+    
+    /**
+     * Comprobar si la receta ha caducado en base a su fecha de validez
+     * @param receta Objeto {@link Receta} 
+     * @return True si la receta es válida
+     */
+    public boolean isRecetaValida(Receta receta) {
+        return receta.getFinValidez().after(new Date());
     }
 }
