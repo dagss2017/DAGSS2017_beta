@@ -27,6 +27,7 @@ import javax.servlet.http.HttpSession;
         urlPatterns = {"/faces/administrador/privado/*",
             "/faces/farmacia/privado/*",
             "/faces/medico/privado/*",
+            "/faces/medico/privado/agenda/*",
             "/faces/paciente/privado/*",})
 public class FiltroAutenticacion implements Filter {
 
