@@ -3,10 +3,13 @@
  */
 package es.uvigo.esei.dagss.dominio.daos;
 
+import es.uvigo.esei.dagss.dominio.entidades.Cita;
 import es.uvigo.esei.dagss.dominio.entidades.Medico;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 
 @Stateless
@@ -38,4 +41,16 @@ public class MedicoDAO extends GenericoDAO<Medico> {
     }
 
     // Completar aqui
+     public List<Cita> buscarCitasPorPaciente(Medico medico) {
+        Date now = new Date();       
+        TypedQuery query = em.createQuery(
+               "SELECT c FROM Cita AS c "
+                       + "WHERE c.medico.dni = :dniMedico AND "
+                       + "c.fecha >= :today ", Cita.class);
+        query.setParameter("dniMedico", medico.getDni());
+        query.setParameter("today",now,TemporalType.DATE);
+
+        return query.getResultList();
+    }
+     
 }

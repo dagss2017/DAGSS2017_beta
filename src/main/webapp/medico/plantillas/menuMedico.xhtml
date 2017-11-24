@@ -9,7 +9,7 @@
         <b:navbarLinks>          
             <b:navCommandLink value="Inicio" outcome="/medico/privado/index" icon="ui-icon-home"/>
 
-            <b:navCommandLink value="Agenda" outcome="/medico/privado/agenda/listadoCitas" /> 
+            <b:navCommandLink value="Agenda" action="#{medicoControlador.dolistarCitasMedico()}" /> 
             
             <b:dropMenu value="otros">
                 
