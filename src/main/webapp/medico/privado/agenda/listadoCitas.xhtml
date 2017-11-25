@@ -29,7 +29,7 @@
         <ui:define name="contenido">
             <h:form id="formularioListado">    
                 <b:container fluid="true">
-                    <b:panel title="Listado de Citas" collapsible="false">
+                    <b:panel title="Listado de Citas para hoy" collapsible="false">
                         <b:dataTable id="tablaListado" class="tablaListadoClass"
                                      value="#{medicoControlador.listCitasMedico}"
                                      var="cita"                            
@@ -38,31 +38,17 @@
                                 <h:outputText value="#{cita.id}"/>
                             </b:dataTableColumn>
 
-                            <b:dataTableColumn label="Paciente">
-                                <h:outputText value="#{cita.paciente.apellidos}, #{cita.paciente.nombre}" />
-                            </b:dataTableColumn>                    
-
-                            <b:dataTableColumn label="Medico">
-                                <h:outputText value="#{cita.medico.apellidos}, #{cita.medico.nombre}" />
-                            </b:dataTableColumn>                    
-
-                            <b:dataTableColumn label="Centro Salud">
-                                <h:outputText value="#{cita.medico.centroSalud.nombre} [#{cita.medico.centroSalud.direccion.localidad}]" />
-                            </b:dataTableColumn>                    
-
-                            <b:dataTableColumn label="Fecha">
-                                <h:outputText value="#{cita.fecha}">
-                                    <f:convertDateTime pattern="dd/MM/yyyy" locale="es_ES" timeZone="Europe/Madrid"/>
-                                </h:outputText>
-                            </b:dataTableColumn>
-
                             <b:dataTableColumn label="Hora" orderable="false">
                                 <h:outputText value="#{cita.hora}">
                                     <f:convertDateTime pattern="HH:mm" locale="es_ES" timeZone="Europe/Madrid"/>
                                 </h:outputText>
                             </b:dataTableColumn>
+                            
+                            <b:dataTableColumn label="Paciente">
+                                <h:outputText value="#{cita.paciente.apellidos}, #{cita.paciente.nombre}" />
+                            </b:dataTableColumn>                    
 
-                            <b:dataTableColumn label="Duracion" orderable="false">
+                            <b:dataTableColumn label="Duración" orderable="false">
                                 <h:outputText value="#{cita.duracion} "/>
                             </b:dataTableColumn>
 
@@ -75,27 +61,18 @@
                                                  actionListener="#{gestionCitasControlador.doVer(cita)}" 
                                                  update=":formularioVer:modalVer"
                                                  oncomplete="$('.modal-ver-class').modal('show')" />
-                                <b:commandButton id="botonEditar" icon-awesome="pencil" tooltip="Editar" ajax="true" 
+                                <b:commandButton id="botonAtencionCliente" icon-awesome="fa-user-md" tooltip="Atención al cliente" ajax="true" 
                                                  actionListener="#{gestionCitasControlador.doEditar(cita)}" 
                                                  update=":formularioEditar:modalEditar"
                                                  oncomplete="$('.modal-editar-class').modal('show')"/>
-                                <b:commandButton id="botonBorrar" icon-awesome="trash" tooltip="Eliminar" ajax="true" 
-                                                 actionListener="#{gestionCitasControlador.doEliminar(cita)}"
-                                                 update="@(.tablaListadoClass)"/>
+                               
                             </b:dataTableColumn>  
                         </b:dataTable>
                         
-                        <f:facet name="footer">
-                            <b:commandButton id="botonNuevo" icon-awesome="plus" value="Crear Cita" tooltip="Nueva cita" ajax="true"
-                                             actionListener="#{gestionCitasControlador.doNuevo()}" 
-                                             update=":formularioNuevo:modalNuevo"
-                                             oncomplete="$('.modal-nuevo-class').modal('show')"/>
-                        </f:facet>
                     </b:panel>
                 </b:container>
             </h:form>         
 
-            <ui:include src="fragmentoNuevo.xhtml"/>
             <ui:include src="fragmentoEditar.xhtml"/>
             <ui:include src="fragmentoVer.xhtml"/>
 
