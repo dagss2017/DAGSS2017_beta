@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:b="http://bootsfaces.net/ui">
 
     <body>
 
@@ -18,8 +18,22 @@
             </ui:define>
 
             <ui:define name="contenido">
+                <b:row>
+                    <h:form id="searchForm">
+                        <b:column offset="3" span="6">
+                            <b:panel title="Recetas por paciente" look="primary" collapsible="false">
+                                <b:inputText id="nif" label="Nº tarjeta" value="#{farmaciaControlador.numTarjetaPacienteBuscar}" />
+                                <b:commandButton value="Buscar" action="#{farmaciaControlador.doBuscarRecetasUsuario()}" span="2"/>
+                            </b:panel>
+                        </b:column>
+                    </h:form>   
+                </b:row>
+                
+                <b:row>
+                    <ui:include src="listado_recetas.xhtml"/>
+                </b:row>
             </ui:define>
-
+            
         </ui:composition>
 
     </body>

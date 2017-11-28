@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui">
+    
+    <ui:composition>
+        <h:form id="formularioListado" rendered="#{not empty farmaciaControlador.listRecetasPaciente}">  
+            <b:container fluid="true">
+                <b:panel title="Listado de recetas" collapsible="false">
+                    <b:dataTable id="tablaListado"  class="tablaListadoClass"
+                                 value="#{farmaciaControlador.listRecetasPaciente}"
+                                 var="receta"
+                                 page-length="5" page-length-menu="[5,10,20]">
+                        <b:dataTableColumn label="Medicamento">
+                            <h:outputText value="#{receta.prescripcion.medicamento.nombre}"/>
+                        </b:dataTableColumn>
+                        <b:dataTableColumn label="Medico">
+                            <h:outputText value="#{receta.prescripcion.medico.nombre}"/>
+                        </b:dataTableColumn>
+                        <b:dataTableColumn label="Inicio validez">
+                            <h:outputText value="#{receta.inicioValidez}"/>
+                        </b:dataTableColumn>
+                        <b:dataTableColumn label="Fin validez">
+                            <h:outputText value="#{receta.finValidez}"/>
+                        </b:dataTableColumn>
+                        <b:dataTableColumn label="Estado">
+                            <h:outputText value="#{receta.estado}"/>
+                        </b:dataTableColumn>
+                    </b:dataTable>
+                </b:panel>
+            </b:container>
+        </h:form>
+    </ui:composition>
+</html>
+

@@ -6,10 +6,14 @@ package es.uvigo.esei.dagss.controladores.farmacia;
 import es.uvigo.esei.dagss.controladores.autenticacion.AutenticacionControlador;
 import es.uvigo.esei.dagss.dominio.daos.FarmaciaDAO;
 import es.uvigo.esei.dagss.dominio.entidades.Farmacia;
+import es.uvigo.esei.dagss.dominio.entidades.Receta;
 import es.uvigo.esei.dagss.dominio.entidades.TipoUsuario;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -26,7 +30,9 @@ public class FarmaciaControlador implements Serializable {
     private Farmacia farmaciaActual;
     private String nif;
     private String password;
-
+    private String numTarjetaPacienteBuscar; // Numero tarjeta sanitaria del paciente cuyas recetas se quieren buscar
+    private List<Receta> listRecetasPaciente;
+    
     @Inject
     private AutenticacionControlador autenticacionControlador;
 
@@ -55,12 +61,28 @@ public class FarmaciaControlador implements Serializable {
         this.password = password;
     }
 
+    public String getNumTarjetaPacienteBuscar() {
+        return numTarjetaPacienteBuscar;
+    }
+
+    public void setNumTarjetaPacienteBuscar(String numTarjetaPacienteBuscar) {
+        this.numTarjetaPacienteBuscar = numTarjetaPacienteBuscar;
+    }
+
     public Farmacia getFarmaciaActual() {
         return farmaciaActual;
     }
 
     public void setFarmaciaActual(Farmacia farmaciaActual) {
         this.farmaciaActual = farmaciaActual;
+    }
+
+    public List<Receta> getListRecetasPaciente() {
+        return listRecetasPaciente;
+    }
+
+    public void setListRecetasPaciente(List<Receta> listRecetasPaciente) {
+        this.listRecetasPaciente = listRecetasPaciente;
     }
 
     private boolean parametrosAccesoInvalidos() {
@@ -87,5 +109,30 @@ public class FarmaciaControlador implements Serializable {
             }
         }
         return destino;
+    }
+    
+    /**
+     * Busca las recetas de un usuario a partir de su número de tarjeta
+     * @return Lista con las recetas válidas del paciente
+     */
+    public String doBuscarRecetasUsuario() {
+        listRecetasPaciente = new ArrayList<>();
+        List<Receta> listaAuxiliar = 
+                farmaciaDAO.buscarRecetasPorPaciente(numTarjetaPacienteBuscar);
+        for (Receta r: listaAuxiliar) {
+            if (isRecetaValida(r))
+                listRecetasPaciente.add(r);
+        }
+        
+        return "index";
+    }
+    
+    /**
+     * Comprobar si la receta ha caducado en base a su fecha de validez
+     * @param receta Objeto {@link Receta} 
+     * @return True si la receta es válida
+     */
+    public boolean isRecetaValida(Receta receta) {
+        return receta.getFinValidez().after(new Date());
     }
 }
