@@ -62,8 +62,9 @@
                                                  update=":formularioVer:modalVer"
                                                  oncomplete="$('.modal-ver-class').modal('show')" />
                                 <b:commandButton id="botonAtencionCliente" icon-awesome="fa-user-md" tooltip="Atención al cliente" 
-                                                 action="#{medicoControlador.doShowCita(cita)}"/>
-                               
+                                                 action="#{medicoControlador.doShowCita(cita)}"
+                                                 rendered="#{medicoControlador.doEnableButtonShowCita(cita)}"/>
+                                
                             </b:dataTableColumn>  
                         </b:dataTable>
                         

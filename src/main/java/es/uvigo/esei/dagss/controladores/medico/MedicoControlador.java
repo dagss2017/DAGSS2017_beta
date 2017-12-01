@@ -10,6 +10,7 @@ import es.uvigo.esei.dagss.dominio.daos.MedicoDAO;
 import es.uvigo.esei.dagss.dominio.entidades.Cita;
 import es.uvigo.esei.dagss.dominio.entidades.Medico;
 import es.uvigo.esei.dagss.dominio.entidades.TipoUsuario;
+import es.uvigo.esei.dagss.dominio.entidades.EstadoCita;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -128,6 +129,9 @@ public class MedicoControlador implements Serializable {
         return "/medico/privado/atencionPaciente/atencionPaciente";
     }
     
+    public boolean doEnableButtonShowCita(Cita cita) {
+        return (cita.getEstado()==EstadoCita.PLANIFICADA)? true:false;
+    }
     /**
      * Lista las citas que tiene el medico loggeado en el día actual.
      * 
@@ -135,7 +139,7 @@ public class MedicoControlador implements Serializable {
      */
     public String dolistarCitasMedico() {
         this.listCitasMedico = medicoDAO.buscarCitasPorPaciente(medicoActual);
-        return "/medico/privado/agenda/listadoCitas";       
+        return "/medico/privado/agenda/listadoCitas";   
     }
     
 }
