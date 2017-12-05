@@ -130,7 +130,7 @@ public class MedicoControlador implements Serializable {
     }
     
     public boolean doEnableButtonShowCita(Cita cita) {
-        return (cita.getEstado()==EstadoCita.PLANIFICADA)? true:false;
+        return (cita.getEstado()==EstadoCita.PLANIFICADA);
     }
     /**
      * Lista las citas que tiene el medico loggeado en el día actual.
