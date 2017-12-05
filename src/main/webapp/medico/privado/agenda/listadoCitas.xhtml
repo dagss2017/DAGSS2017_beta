@@ -61,11 +61,10 @@
                                                  actionListener="#{gestionCitasControlador.doVer(cita)}" 
                                                  update=":formularioVer:modalVer"
                                                  oncomplete="$('.modal-ver-class').modal('show')" />
-                                <b:commandButton id="botonAtencionCliente" icon-awesome="fa-user-md" tooltip="Atención al cliente" ajax="true" 
-                                                 actionListener="#{gestionCitasControlador.doEditar(cita)}" 
-                                                 update=":formularioEditar:modalEditar"
-                                                 oncomplete="$('.modal-editar-class').modal('show')"/>
-                               
+                                <b:commandButton id="botonAtencionCliente" icon-awesome="fa-user-md" tooltip="Atención al cliente" 
+                                                 action="#{medicoControlador.doShowCita(cita)}"
+                                                 rendered="#{medicoControlador.doEnableButtonShowCita(cita)}"/>
+                                
                             </b:dataTableColumn>  
                         </b:dataTable>
                         
@@ -73,7 +72,6 @@
                 </b:container>
             </h:form>         
 
-            <ui:include src="fragmentoEditar.xhtml"/>
             <ui:include src="fragmentoVer.xhtml"/>
 
         </ui:define>
