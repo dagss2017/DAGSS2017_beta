@@ -22,7 +22,7 @@
                     <!-- title="Paciente: #{gestionCitasControlador.citaActual.paciente.apellidos}, #{gestionCitasControlador.citaActual.paciente.nombre}" collapsible="false"-->
                     <b:panel title="Paciente: #{gestionCitasControlador.citaActual.paciente.apellidos}, #{gestionCitasControlador.citaActual.paciente.nombre}" 
                          rendered="#{not empty gestionCitasControlador.citaActual}" 
-                         collapsible="true"
+                         collapsible="true" collapsed="true"
                          >
                         <b:panelGrid col-spans="12">
                           <b:row>
@@ -68,9 +68,9 @@
                                 <b:column col-xs="12" col-md="1" style="background-color: #efefef; border: 1px solid;"><h:outputText value="#{gestionCitasControlador.citaActual.paciente.direccion.codigoPostal}"/></b:column>
                             </b:row>
                         </b:panelGrid>
-                    </b:panel>                          
+                    </b:panel>
+                    <ui:include src="fragmentoListaPrescripciones.xhtml"/>
                 </b:container>
-                <ui:include src="fragmentoListaPrescripciones.xhtml"/>
             </h:form>         
         </ui:define>
 
