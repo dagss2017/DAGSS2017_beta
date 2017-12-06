@@ -41,9 +41,8 @@ public class MedicoDAO extends GenericoDAO<Medico> {
     }
 
     // Completar aqui
-     public List<Cita> buscarCitasPorPaciente(Medico medico) {
+     public List<Cita> buscarCitasPorMedico(Medico medico) {
         Date now = new Date();       
-        /* + "LEFT JOIN Paciente AS p ON c.paciente.dni=p.dni "*/
         TypedQuery query = em.createQuery(
                "SELECT c FROM Cita AS c "
                        + "WHERE c.medico.dni = :dniMedico AND "

@@ -5,9 +5,11 @@ package es.uvigo.esei.dagss.dominio.daos;
 
 import es.uvigo.esei.dagss.dominio.entidades.Paciente;
 import es.uvigo.esei.dagss.dominio.entidades.Prescripcion;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 
 @Stateless
@@ -24,10 +26,14 @@ public class PrescripcionDAO extends GenericoDAO<Prescripcion> {
     
     // Completar aqui 
     public List<Prescripcion> buscarPorPaciente(Paciente paciente){
+        Date now = new Date();  
         TypedQuery query = em.createQuery(
                "SELECT p FROM Prescripcion AS p "
-                       + "WHERE p.paciente.id = :idpaciente", Prescripcion.class);
+                       + "WHERE p.paciente.id = :idpaciente AND "
+                       + "p.fechaFin >= :today "
+                       + "ORDER BY p.fechaInicio", Prescripcion.class);
         query.setParameter("idpaciente", paciente.getId());
+        query.setParameter("today",now,TemporalType.DATE);
 
         return query.getResultList();
     }

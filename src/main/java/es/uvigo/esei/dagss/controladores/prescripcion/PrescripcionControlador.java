@@ -77,7 +77,6 @@ public class PrescripcionControlador implements Serializable{
     }
     
     public void doVer(Prescripcion prescripcion) {
-        System.out.println(">>es.uvigo.esei.dagss.controladores.prescripcion.PrescripcionControlador.doVer()");
         this.prescripcionActual = prescripcion;   // Otra alternativa: volver a refrescarlos desde el DAO
     }
 }
