@@ -7,49 +7,61 @@
       xmlns:b="http://bootsfaces.net/ui">
 
     <ui:composition>
-        <b:panel title="Listado de prescripciones en vigor" collapsible="true">
-            
-            <h:outputText value="#{gestionCitasControlador.citaActual.paciente.nombre}"/>
-            
+        <b:panel title="Listado de prescripciones en vigor" collapsible="true">         
            <b:dataTable id="tablaListado" class="tablaListadoClass"
-                        value="#{medicoControlador.listCitasMedico}"
+                        value="#{prescripcionControlador.listPrescripcionesPaciente}"
                         var="prescripcion"                            
                         page-length="5" page-length-menu="[5,10,20]">                     
                <b:dataTableColumn label="Id">
                    <h:outputText value="#{prescripcion.id}"/>
                </b:dataTableColumn>
 
-               <b:dataTableColumn label="Hora" orderable="false">
-                   <h:outputText value="#{prescripcion.hora}">
-                       <f:convertDateTime pattern="HH:mm" locale="es_ES" timeZone="Europe/Madrid"/>
+               <b:dataTableColumn label="Inicio" orderable="true">
+                   <h:outputText value="#{prescripcion.fechaInicio}">
+                       <f:convertDateTime pattern="dd/MM/Y" locale="es_ES" timeZone="Europe/Madrid"/>
                    </h:outputText>
                </b:dataTableColumn>
 
-               <b:dataTableColumn label="Paciente">
-                   <h:outputText value="#{prescripcion.paciente.apellidos}, #{prescripcion.paciente.nombre}" />
+               <b:dataTableColumn label="Fin">
+                   <h:outputText value="#{prescripcion.fechaFin}" >
+                   <f:convertDateTime pattern="dd/MM/Y" locale="es_ES" timeZone="Europe/Madrid"/>
+                   </h:outputText>
                </b:dataTableColumn>                    
 
-               <b:dataTableColumn label="Duración" orderable="false">
-                   <h:outputText value="#{prescripcion.duracion} "/>
+               <b:dataTableColumn label="Dosis" orderable="false">
+                   <h:outputText value="#{prescripcion.dosis}"/>
                </b:dataTableColumn>
 
-               <b:dataTableColumn label="Estado">
-                   <h:outputText value="#{prescripcion.estado} "/>
+               <b:dataTableColumn label="Medicamento">
+                   <h:outputText value="#{prescripcion.medicamento.nombre}"/>
+               </b:dataTableColumn>
+
+               <b:dataTableColumn label="Principio activo">
+                   <h:outputText value="#{prescripcion.medicamento.principioActivo}"/>
+               </b:dataTableColumn>
+               
+               <b:dataTableColumn label="Familia">
+                   <h:outputText value="#{prescripcion.medicamento.familia}"/>
+               </b:dataTableColumn>
+
+               <b:dataTableColumn label="Fabricante">
+                   <h:outputText value="#{prescripcion.medicamento.fabricante}"/>
+               </b:dataTableColumn>
+
+               <b:dataTableColumn label="Nº Dosis">
+                   <h:outputText value="#{prescripcion.medicamento.numeroDosis}"/>
                </b:dataTableColumn>
 
                <b:dataTableColumn label="" orderable="false">
                    <b:commandButton id="botonVer" icon-awesome="eye" tooltip="Ver" ajax="true"  
-                                    actionListener="#{gestionCitasControlador.doVer(prescripcion)}" 
-                                   />
-                   <b:commandButton id="botonAtencionCliente" icon-awesome="fa-user-md" tooltip="Atención al cliente" 
-                                    action="#{medicoControlador.doShowCita(prescripcion)}"
-                                    rendered="#{medicoControlador.doEnableButtonShowCita(prescripcion)}"/>
-
+                                                 actionListener="#{prescripcionControlador.doVer(prescripcion)}" 
+                                                 update=":formularioVer:modalVer"
+                                                 oncomplete="$('.modal-ver-class').modal('show')" />
                </b:dataTableColumn>  
            </b:dataTable>
 
        </b:panel>
     </ui:composition>
-    <ui:include src="/medico/privado/agenda/fragmentoVer.xhtml"/>
+
 </html>
 
