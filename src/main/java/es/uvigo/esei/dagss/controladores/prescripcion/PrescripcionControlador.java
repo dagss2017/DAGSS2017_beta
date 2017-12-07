@@ -18,6 +18,8 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -78,5 +80,25 @@ public class PrescripcionControlador implements Serializable{
     
     public void doVer(Prescripcion prescripcion) {
         this.prescripcionActual = prescripcion;   // Otra alternativa: volver a refrescarlos desde el DAO
+    }
+    
+    public void doNuevo() {
+        prescripcionActual = new Prescripcion(); // Prescripcion
+    }
+    
+    public void doGuardarNuevo() {
+        /*
+        if (passwordsValidos()) {
+            // Crea  nuevo
+            medicoActual = medicoDAO.crear(medicoActual);
+
+            // Ajustar password 
+            usuarioDAO.actualizarPassword(medicoActual.getId(), password1);
+
+            // Actualiza lista 
+            medicos = medicoDAO.buscarTodos();
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Password incorrecto (usente o no coincidencia)", ""));
+        }*/
     }
 }

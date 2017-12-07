@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+    <ui:composition>
+            <b:modal id="modalNuevo" class="modal-nuevo-class" title="Crear nueva prescripción">
+                <b:panel title="Crear Nueva Prescripción" 
+                         rendered="#{not empty prescripcionControlador.prescripcionActual}" 
+                         collapsible="false">
+
+                    <h:outputLabel value="Fecha de Inicio" for="fechaInicio"/>
+                    <b:dateTimePicker id="fechaInicio" value="#{prescripcionControlador.prescripcionActual.fechaInicio}" locale="es_ES" show-time="false" allow-input-toggle="true"/>
+                    
+                    <h:outputLabel value="Fecha de Finalización" for="fechaFin"/>
+                    <b:dateTimePicker id="fechaFin" value="#{prescripcionControlador.prescripcionActual.fechaFin}" locale="es_ES" show-time="false" allow-input-toggle="true"/>
+                    
+                    <h:outputLabel value="Dosis" for="dosis"/>
+                    <b:touchSpin id="dosis" value="#{prescripcionControlador.prescripcionActual.dosis}" min="1" />
+
+                    <h:outputLabel value="Indicaciones" for="indicaciones"/>
+                    <b:inputText value="#{prescripcionControlador.prescripcionActual.indicaciones}" />
+                    
+
+                </b:panel>
+                <f:facet name="footer">
+                    <b:commandButton value="Crear" 
+                                     ajax="true" process="@form" update=":formularioListado:tablaListado :mensajesGlobal" 
+                                     actionListener="#{prescripcionControlador.doGuardarNuevo()}"  
+                                     oncomplete="$('.modal-nuevo-class').modal('hide')"/>
+                    <b:button value="Cerrar" dismiss="modal"/>
+                </f:facet>
+            </b:modal>
+        
+    </ui:composition>
+</html>
+

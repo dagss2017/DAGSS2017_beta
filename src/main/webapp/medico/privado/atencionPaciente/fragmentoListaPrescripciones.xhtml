@@ -54,12 +54,17 @@
 
                <b:dataTableColumn label="" orderable="false">
                    <b:commandButton id="botonVer" icon-awesome="eye" tooltip="Ver" ajax="true"  
-                                                 actionListener="#{prescripcionControlador.doVer(prescripcion)}" 
-                                                 update=":formularioVer:modalVer"
-                                                 oncomplete="$('.modal-ver-class').modal('show')" />
+                        actionListener="#{prescripcionControlador.doVer(prescripcion)}" 
+                        update=":formularioVer:modalVer"
+                        oncomplete="$('.modal-ver-class').modal('show')" />
                </b:dataTableColumn>  
            </b:dataTable>
-
+                <f:facet name="footer">                     
+                    <b:commandButton id="botonNuevo" icon-awesome="plus" value="Crear Prescripción" tooltip="Nueva Prescripción" ajax="true"
+                        actionListener="#{prescripcionControlador.doNuevo()}" 
+                        update=":formularioNuevo:modalNuevo"
+                        oncomplete="$('.modal-nuevo-class').modal('show')"/>
+                </f:facet>
        </b:panel>
     </ui:composition>
 
