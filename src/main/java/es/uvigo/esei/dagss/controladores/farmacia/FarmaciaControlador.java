@@ -170,6 +170,7 @@ public class FarmaciaControlador implements Serializable {
      * @param recetaConEstado Objeto {@link Receta} con el estado actualizado
      */
     public void onEstadoSeleccionado(Receta recetaConEstado) {
+        recetaConEstado.setFarmaciaDispensadora(this.farmaciaActual);
         recetaDAO.actualizar(recetaConEstado);
     }
 }
