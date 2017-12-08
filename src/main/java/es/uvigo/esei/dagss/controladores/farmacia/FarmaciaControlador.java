@@ -145,6 +145,15 @@ public class FarmaciaControlador implements Serializable {
     }
     
     /**
+     * Comprobar si la receta ha sido marcada como servida
+     * @param receta Objeto {@link Receta}
+     * @return True si la receta tiene estado SERVIDA
+     */
+    public boolean isRecetaGenerada(Receta receta) {
+        return receta.getEstado().equals(EstadoReceta.GENERADA);
+    }
+    
+    /**
      * Construye una lista con los posibles estados de una receta.
      * Estos estados serán mostrados en la vista como un elemento
      * de dropdown para poder cambiar el estado de cada receta.
@@ -163,5 +172,4 @@ public class FarmaciaControlador implements Serializable {
     public void onEstadoSeleccionado(Receta recetaConEstado) {
         recetaDAO.actualizar(recetaConEstado);
     }
-    
 }

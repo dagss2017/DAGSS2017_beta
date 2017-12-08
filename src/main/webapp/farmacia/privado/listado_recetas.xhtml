@@ -24,17 +24,19 @@
                             <h:outputText value="#{receta.inicioValidez}"/>
                         </b:dataTableColumn>
                         <b:dataTableColumn label="Fin validez">
-                            <h:outputText value="#{receta.finValidez}"/>
+                            <h:outputText value="#{receta.finValidez}"/>    
                         </b:dataTableColumn>
                         <b:dataTableColumn label="Estado">
                             <b:selectOneMenu 
                                 value="#{receta.estado}" 
                                 colMd="2" 
                                 labelColMd="2" 
-                                rendered="#{farmaciaControlador.isRecetaValida(receta)}" 
+                                rendered="#{farmaciaControlador.isRecetaValida(receta) and farmaciaControlador.isRecetaGenerada(receta)}" 
                                 onchange="ajax:farmaciaControlador.onEstadoSeleccionado(receta)">
                                 <f:selectItems value="#{farmaciaControlador.listEstadoReceta}" var="c" itemValue="#{c}" itemLabel="#{c}"/>
                             </b:selectOneMenu>
+                            
+                            <h:outputText rendered="#{not farmaciaControlador.isRecetaGenerada(receta) or not farmaciaControlador.isRecetaValida(receta)}" value="#{receta.estado}"/>
                         </b:dataTableColumn>
                         <b:dataTableColumn label="Para suministro">
                             <h:outputText value="#{farmaciaControlador.isRecetaValida(receta)? 'Si': 'No'}"/>
