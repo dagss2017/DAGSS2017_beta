@@ -6,24 +6,52 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:b="http://bootsfaces.net/ui">
     <ui:composition>
-            <b:modal id="modalNuevo" class="modal-nuevo-class" title="Crear nueva prescripción">
+        <b:modal id="modalNuevo" class="modal-nuevo-class" title="Crear nueva prescripción" >
                 <b:panel title="Crear Nueva Prescripción" 
                          rendered="#{not empty prescripcionControlador.prescripcionActual}" 
                          collapsible="false">
 
                     <h:outputLabel value="Fecha de Inicio" for="fechaInicio"/>
-                    <b:dateTimePicker id="fechaInicio" value="#{prescripcionControlador.prescripcionActual.fechaInicio}" locale="es_ES" show-time="false" allow-input-toggle="true"/>
+                    <b:dateTimePicker id="fechaInicio" value="#{prescripcionControlador.prescripcionActual.fechaInicio}" locale="es_ES" show-time="false" allow-input-toggle="true" required="true"/>
                     
                     <h:outputLabel value="Fecha de Finalización" for="fechaFin"/>
-                    <b:dateTimePicker id="fechaFin" value="#{prescripcionControlador.prescripcionActual.fechaFin}" locale="es_ES" show-time="false" allow-input-toggle="true"/>
+                    <b:dateTimePicker id="fechaFin" value="#{prescripcionControlador.prescripcionActual.fechaFin}" locale="es_ES" show-time="false" allow-input-toggle="true" required="true"/>
                     
                     <h:outputLabel value="Dosis" for="dosis"/>
-                    <b:touchSpin id="dosis" value="#{prescripcionControlador.prescripcionActual.dosis}" min="1" />
+                    <b:touchSpin id="dosis" value="#{prescripcionControlador.prescripcionActual.dosis}" min="1" required="true" />
 
                     <h:outputLabel value="Indicaciones" for="indicaciones"/>
                     <b:inputText value="#{prescripcionControlador.prescripcionActual.indicaciones}" />
                     
+                    <h:outputLabel value="Medicamento" for="medicamento"/>
+                    <b:dataTable id="tablaListadoMedicamentos" class="tablaListadoMedicamentosClass"
+                                 value="#{gestionMedicamentosControlador.medicamentos}" selectionMode="single"
+                            select="true"  custom-options = "info:false"
+                            onselect="console.log(typeOfSelection + ' ' + indexes + ' has been selected');ajax:prescripcionControlador.onSelect(medicamento, typeOfSelection, indexes);"
+                            var="medicamento"                            
+                            page-length="5" page-length-menu="[5,10,20]">                     
 
+                        <b:dataTableColumn label="Medicamento">
+                            <h:outputText value="#{medicamento.nombre}"/>
+                        </b:dataTableColumn>
+
+                        <b:dataTableColumn label="Principio activo">
+                            <h:outputText value="#{medicamento.principioActivo}"/>
+                        </b:dataTableColumn>
+
+                        <b:dataTableColumn label="Familia">
+                            <h:outputText value="#{medicamento.familia}"/>
+                        </b:dataTableColumn>
+
+                        <b:dataTableColumn label="Fabricante">
+                            <h:outputText value="#{medicamento.fabricante}"/>
+                        </b:dataTableColumn>
+
+                        <b:dataTableColumn label="Dosis">
+                            <h:outputText value="#{medicamento.numeroDosis}"/>
+                        </b:dataTableColumn>
+
+                    </b:dataTable>
                 </b:panel>
                 <f:facet name="footer">
                     <b:commandButton value="Crear" 

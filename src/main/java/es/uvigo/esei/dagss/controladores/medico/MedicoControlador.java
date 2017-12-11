@@ -137,6 +137,8 @@ public class MedicoControlador implements Serializable {
     public String doShowCita(Cita cita) {
         gestionCitasControlador.setCitaActual(cita);
         prescripcionControlador.setPrescripcionesPaciente(cita.getPaciente());
+        prescripcionControlador.setMedicoActual(medicoActual);
+        prescripcionControlador.setPacienteActual(cita.getPaciente());
         return "/medico/privado/atencionPaciente/atencionPaciente";
     }
     
