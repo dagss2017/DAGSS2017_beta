@@ -23,11 +23,16 @@
                     <h:outputLabel value="Indicaciones" for="indicaciones"/>
                     <b:inputText value="#{prescripcionControlador.prescripcionActual.indicaciones}" />
                     
-                    <h:outputLabel value="Medicamento" for="medicamento"/>
+                    <h:outputLabel value="Filtrar medicamentos por:" for="medicamento"/>
+                    <b:inputText id="filtro" value="#{prescripcionControlador.filtroMedicamentos}" 
+                                 />
+                    <b:commandButton id="botonFiltro" icon-awesome="fa-search" value="Ejecutar Filtro" tooltip="Filtrar medicamentos" ajax="true"
+                                     onclick="ajax:prescripcionControlador.onFiltrarMedicamentos()"
+                         look="info"/>
                     <b:dataTable id="tablaListadoMedicamentos" class="tablaListadoMedicamentosClass"
-                                 value="#{gestionMedicamentosControlador.medicamentos}" selectionMode="single"
-                            select="true"  custom-options = "info:false"
-                            onselect="console.log(typeOfSelection + ' ' + indexes + ' has been selected');ajax:prescripcionControlador.onSelect(medicamento, typeOfSelection, indexes);"
+                                 value="#{prescripcionControlador.medicamentos}" selectionMode="single"
+                                 select="true" custom-options = "info:false" searching="false" paginated="false"
+                            onselect="console.log(typeOfSelection + ' ' + indexes + ' has been selected');ajax:prescripcionControlador.onSelect(medicamento);"
                             var="medicamento"                            
                             page-length="5" page-length-menu="[5,10,20]">                     
 

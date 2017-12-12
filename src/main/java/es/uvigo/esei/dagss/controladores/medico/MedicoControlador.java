@@ -36,6 +36,7 @@ public class MedicoControlador implements Serializable {
     private String numeroColegiado;
     private String password;
     private List<Cita> listCitasMedico;
+    private Cita citaActual;
 
     @Inject
     private AutenticacionControlador autenticacionControlador;
@@ -69,6 +70,14 @@ public class MedicoControlador implements Serializable {
     
     public List<Cita> getListCitasMedico(){
         return this.listCitasMedico;
+    }
+
+    public Cita getCitaActual() {
+        return citaActual;
+    }
+
+    public void setCitaActual(Cita citaActual) {
+        this.citaActual = citaActual;
     }
 
     public void setNumeroColegiado(String numeroColegiado) {
@@ -135,10 +144,7 @@ public class MedicoControlador implements Serializable {
      * @return Formulario de Atención al paciente
      */
     public String doShowCita(Cita cita) {
-        gestionCitasControlador.setCitaActual(cita);
-        prescripcionControlador.setPrescripcionesPaciente(cita.getPaciente());
-        prescripcionControlador.setMedicoActual(medicoActual);
-        prescripcionControlador.setPacienteActual(cita.getPaciente());
+        citaActual = cita;
         return "/medico/privado/atencionPaciente/atencionPaciente";
     }
     

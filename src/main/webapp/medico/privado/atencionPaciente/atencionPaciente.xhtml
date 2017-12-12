@@ -19,53 +19,53 @@
         <ui:define name="contenido">
             <h:form id="formularioListado">    
                 <b:container fluid="true">
-                    <!-- title="Paciente: #{gestionCitasControlador.citaActual.paciente.apellidos}, #{gestionCitasControlador.citaActual.paciente.nombre}" collapsible="false"-->
-                    <b:panel title="Paciente: #{gestionCitasControlador.citaActual.paciente.apellidos}, #{gestionCitasControlador.citaActual.paciente.nombre}" 
-                         rendered="#{not empty gestionCitasControlador.citaActual}" 
+                    <!-- title="Paciente: #{medicoControlador.citaActual.paciente.apellidos}, #{medicoControlador.citaActual.paciente.nombre}" collapsible="false"-->
+                    <b:panel title="Paciente: #{medicoControlador.citaActual.paciente.apellidos}, #{medicoControlador.citaActual.paciente.nombre}" 
+                         rendered="#{not empty medicoControlador.citaActual}" 
                          collapsible="true" collapsed="true"
                          >
                         <b:panelGrid col-spans="12">
                           <b:row>
                               <b:column span="1"></b:column>
-                            <b:inputText value="#{gestionCitasControlador.citaActual.id}" span="1" label="Id" disabled="true"/>
+                            <b:inputText value="#{medicoControlador.citaActual.id}" span="1" label="Id" disabled="true"/>
                             <b:column span="1"></b:column>
-                            <b:inputText value="#{gestionCitasControlador.citaActual.fecha}" span="1" label="Fecha" disabled="true">
+                            <b:inputText value="#{medicoControlador.citaActual.fecha}" span="1" label="Fecha" disabled="true">
                               <f:convertDateTime pattern="dd/MM/yyyy" locale="es_ES" timeZone="Europe/Madrid"/>
                             </b:inputText>
                             <b:column span="1"></b:column>
-                            <b:inputText value="#{gestionCitasControlador.citaActual.hora}" span="1" label="Hora" disabled="true">
+                            <b:inputText value="#{medicoControlador.citaActual.hora}" span="1" label="Hora" disabled="true">
                                 <f:convertDateTime pattern="HH:mm" locale="es_ES" timeZone="Europe/Madrid"/>
                             </b:inputText>                
                             <b:column span="1"></b:column>
-                            <b:inputText value="#{gestionCitasControlador.citaActual.duracion}" span="1" label="Duración" disabled="true"/>
+                            <b:inputText value="#{medicoControlador.citaActual.duracion}" span="1" label="Duración" disabled="true"/>
                             <b:column span="1"></b:column>
-                            <b:inputText value="#{gestionCitasControlador.citaActual.estado}" span="2" label="Estado" disabled="true" />
+                            <b:inputText value="#{medicoControlador.citaActual.estado}" span="2" label="Estado" disabled="true" />
                             <b:column span="1"></b:column>
                           </b:row>
                             <b:row styleClass="show-grid">
                                 <b:column col-xs="12" col-md="1" style="text-align: center;"><h:outputText value="D.N.I.:"/></b:column>
-                                <b:column col-xs="12" col-md="1" style="background-color: #efefef; border: 1px solid; min-width: 100px;"><h:outputText value="#{gestionCitasControlador.citaActual.paciente.dni}"/></b:column>
+                                <b:column col-xs="12" col-md="1" style="background-color: #efefef; border: 1px solid; min-width: 100px;"><h:outputText value="#{medicoControlador.citaActual.paciente.dni}"/></b:column>
                                 <b:column col-xs="12" col-md="1" style="text-align: center;"><h:outputText value="Nº Seg. social:"/></b:column>
-                                <b:column col-xs="12" col-md="2" style="background-color: #efefef; border: 1px solid;"><h:outputText value="#{gestionCitasControlador.citaActual.paciente.numeroSeguridadSocial}"/></b:column>
+                                <b:column col-xs="12" col-md="2" style="background-color: #efefef; border: 1px solid;"><h:outputText value="#{medicoControlador.citaActual.paciente.numeroSeguridadSocial}"/></b:column>
                                 <b:column col-xs="12" col-md="1" style="text-align: center;"><h:outputText value="Nº tarj. sanitaria:"/></b:column>
-                                <b:column col-xs="12" col-md="1" style="background-color: #efefef; border: 1px solid; min-width: 100px;"><h:outputText value="#{gestionCitasControlador.citaActual.paciente.numeroTarjetaSanitaria}"/></b:column>
+                                <b:column col-xs="12" col-md="1" style="background-color: #efefef; border: 1px solid; min-width: 100px;"><h:outputText value="#{medicoControlador.citaActual.paciente.numeroTarjetaSanitaria}"/></b:column>
                                 <b:column col-xs="12" col-md="1" style="text-align: center;"><h:outputText value="Fecha de Alta:"/></b:column>
-                                <b:column col-xs="12" col-md="1" style="background-color: #efefef; border: 1px solid; min-width: 100px;"><h:outputText value="#{gestionCitasControlador.citaActual.paciente.fechaAlta}"><f:convertDateTime pattern="dd/MM/yyyy" locale="es_ES" timeZone="Europe/Madrid"/></h:outputText></b:column>
+                                <b:column col-xs="12" col-md="1" style="background-color: #efefef; border: 1px solid; min-width: 100px;"><h:outputText value="#{medicoControlador.citaActual.paciente.fechaAlta}"><f:convertDateTime pattern="dd/MM/yyyy" locale="es_ES" timeZone="Europe/Madrid"/></h:outputText></b:column>
                                 <b:column col-xs="12" col-md="1" style="text-align: center;"><h:outputText value="Último acceso:"/></b:column>
-                                <b:column col-xs="12" col-md="1" style="background-color: #efefef; border: 1px solid; min-width: 100px;"><h:outputText value="#{gestionCitasControlador.citaActual.paciente.ultimoAcceso}"><f:convertDateTime pattern="dd/MM/yyyy" locale="es_ES" timeZone="Europe/Madrid"/></h:outputText></b:column>
+                                <b:column col-xs="12" col-md="1" style="background-color: #efefef; border: 1px solid; min-width: 100px;"><h:outputText value="#{medicoControlador.citaActual.paciente.ultimoAcceso}"><f:convertDateTime pattern="dd/MM/yyyy" locale="es_ES" timeZone="Europe/Madrid"/></h:outputText></b:column>
                             </b:row>
                             <b:row>
                                 <b:column col-xs="12" col-md="12" style="height: 15px;text-align: center;"></b:column>
                             </b:row>
                             <b:row styleClass="show-grid">
                                 <b:column col-xs="12" col-md="1" style="text-align: center;"><h:outputText value="Domicilio:"/></b:column>
-                                <b:column col-xs="12" col-md="3" style="background-color: #efefef; border: 1px solid;"><h:outputText value="#{gestionCitasControlador.citaActual.paciente.direccion.domicilio}"/></b:column>
+                                <b:column col-xs="12" col-md="3" style="background-color: #efefef; border: 1px solid;"><h:outputText value="#{medicoControlador.citaActual.paciente.direccion.domicilio}"/></b:column>
                                 <b:column col-xs="12" col-md="1" style="text-align: center;"><h:outputText value="Localidad:"/></b:column>
-                                <b:column col-xs="12" col-md="1" style="background-color: #efefef; border: 1px solid;"><h:outputText value="#{gestionCitasControlador.citaActual.paciente.direccion.localidad}"/></b:column>
+                                <b:column col-xs="12" col-md="1" style="background-color: #efefef; border: 1px solid;"><h:outputText value="#{medicoControlador.citaActual.paciente.direccion.localidad}"/></b:column>
                                 <b:column col-xs="12" col-md="1" style="text-align: center;"><h:outputText value="Província:"/></b:column>
-                                <b:column col-xs="12" col-md="1" style="background-color: #efefef; border: 1px solid;"><h:outputText value="#{gestionCitasControlador.citaActual.paciente.direccion.provincia}"/></b:column>
+                                <b:column col-xs="12" col-md="1" style="background-color: #efefef; border: 1px solid;"><h:outputText value="#{medicoControlador.citaActual.paciente.direccion.provincia}"/></b:column>
                                 <b:column col-xs="12" col-md="1" style="text-align: center;"><h:outputText value="Cód. Postal:"/></b:column>
-                                <b:column col-xs="12" col-md="1" style="background-color: #efefef; border: 1px solid;"><h:outputText value="#{gestionCitasControlador.citaActual.paciente.direccion.codigoPostal}"/></b:column>
+                                <b:column col-xs="12" col-md="1" style="background-color: #efefef; border: 1px solid;"><h:outputText value="#{medicoControlador.citaActual.paciente.direccion.codigoPostal}"/></b:column>
                             </b:row>
                         </b:panelGrid>
                     </b:panel>

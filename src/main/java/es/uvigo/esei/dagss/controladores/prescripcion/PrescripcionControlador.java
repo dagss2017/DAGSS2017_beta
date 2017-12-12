@@ -18,6 +18,7 @@ import es.uvigo.esei.dagss.dominio.entidades.Medico;
 import es.uvigo.esei.dagss.dominio.entidades.Paciente;
 import es.uvigo.esei.dagss.dominio.entidades.Prescripcion;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -39,6 +40,8 @@ public class PrescripcionControlador implements Serializable{
     List<Prescripcion> prescripciones;
     Medico medicoActual;
     Paciente pacienteActual;
+    List<Medicamento> medicamentos;
+    String filtroMedicamentos;
 
     @Inject
     private AutenticacionControlador autenticacionControlador;
@@ -57,6 +60,8 @@ public class PrescripcionControlador implements Serializable{
     
     @Inject
     private RecetaDAO recetaDAO;
+    @Inject
+    private MedicoControlador medicoControlador;
     
     /**
      * Creates a new instance of PrescripcionControlador
@@ -66,10 +71,23 @@ public class PrescripcionControlador implements Serializable{
     
     @PostConstruct
     public void inicializar() {
+        this.filtroMedicamentos="";
+        this.medicoActual = medicoControlador.getMedicoActual();
+        this.pacienteActual = medicoControlador.getCitaActual().getPaciente();
+        setPrescripcionesPaciente(medicoControlador.getCitaActual().getPaciente());
+        medicamentos = new ArrayList<Medicamento>();
     }
 
+    public String getFiltroMedicamentos(){
+        return this.filtroMedicamentos;
+    }
+    
     public Prescripcion getPrescripcionActual() {
         return prescripcionActual;
+    }
+    
+    public void setFiltroMedicamentos(String filtro){
+        this.filtroMedicamentos = filtro;
     }
 
     public void setMedicoActual(Medico medico){
@@ -103,12 +121,19 @@ public class PrescripcionControlador implements Serializable{
         prescripcionActual.setFechaInicio( Calendar.getInstance().getTime());
     }
     
-       private boolean fechasValidas() {
+    private boolean fechasValidas() {
         return (prescripcionActual.getFechaInicio().before(prescripcionActual.getFechaFin()));
     }
+
+    public List<Medicamento> getMedicamentos(){
+        return this.medicamentos;
+    }
     
-    public void onSelect(Medicamento medicamento, String typeOfSelection, String indexes){
-        System.out.println("OnSelect:" + medicamento + " typeOfSelection: " + typeOfSelection + " indexes: " + indexes);
+    public void onFiltrarMedicamentos(String filtro){
+
+    }
+
+    public void onSelect(Medicamento medicamento){
         prescripcionActual.setMedicamento(medicamento);
     }
        
