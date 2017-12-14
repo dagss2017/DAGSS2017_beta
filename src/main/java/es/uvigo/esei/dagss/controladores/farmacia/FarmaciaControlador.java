@@ -5,6 +5,8 @@ package es.uvigo.esei.dagss.controladores.farmacia;
 
 import es.uvigo.esei.dagss.controladores.autenticacion.AutenticacionControlador;
 import es.uvigo.esei.dagss.dominio.daos.FarmaciaDAO;
+import es.uvigo.esei.dagss.dominio.daos.RecetaDAO;
+import es.uvigo.esei.dagss.dominio.entidades.EstadoReceta;
 import es.uvigo.esei.dagss.dominio.entidades.Farmacia;
 import es.uvigo.esei.dagss.dominio.entidades.Receta;
 import es.uvigo.esei.dagss.dominio.entidades.TipoUsuario;
@@ -32,12 +34,15 @@ public class FarmaciaControlador implements Serializable {
     private String password;
     private String numTarjetaPacienteBuscar; // Numero tarjeta sanitaria del paciente cuyas recetas se quieren buscar
     private List<Receta> listRecetasPaciente;
+    private List<EstadoReceta> listEstadoReceta;
     
     @Inject
     private AutenticacionControlador autenticacionControlador;
 
     @EJB
     private FarmaciaDAO farmaciaDAO;
+    @EJB
+    private RecetaDAO recetaDAO;
 
     /**
      * Creates a new instance of AdministradorControlador
@@ -85,6 +90,10 @@ public class FarmaciaControlador implements Serializable {
         this.listRecetasPaciente = listRecetasPaciente;
     }
 
+    public List<EstadoReceta> getListEstadoReceta() {
+        return listEstadoReceta;
+    }
+
     private boolean parametrosAccesoInvalidos() {
         return ((nif == null) || (password == null));
     }
@@ -117,12 +126,11 @@ public class FarmaciaControlador implements Serializable {
      */
     public String doBuscarRecetasUsuario() {
         listRecetasPaciente = new ArrayList<>();
-        List<Receta> listaAuxiliar = 
+        listRecetasPaciente = 
                 farmaciaDAO.buscarRecetasPorPaciente(numTarjetaPacienteBuscar);
-        for (Receta r: listaAuxiliar) {
-            if (isRecetaValida(r))
-                listRecetasPaciente.add(r);
-        }
+        
+        // Crear la lista de estados para mostrar el dropdown en la vista
+        setListaEstados();
         
         return "index";
     }
@@ -134,5 +142,35 @@ public class FarmaciaControlador implements Serializable {
      */
     public boolean isRecetaValida(Receta receta) {
         return receta.getFinValidez().after(new Date());
+    }
+    
+    /**
+     * Comprobar si la receta ha sido marcada como servida
+     * @param receta Objeto {@link Receta}
+     * @return True si la receta tiene estado SERVIDA
+     */
+    public boolean isRecetaGenerada(Receta receta) {
+        return receta.getEstado().equals(EstadoReceta.GENERADA);
+    }
+    
+    /**
+     * Construye una lista con los posibles estados de una receta.
+     * Estos estados serán mostrados en la vista como un elemento
+     * de dropdown para poder cambiar el estado de cada receta.
+     */
+    public void setListaEstados() {
+        listEstadoReceta = new ArrayList<>();
+        listEstadoReceta.add(EstadoReceta.GENERADA);
+        listEstadoReceta.add(EstadoReceta.SERVIDA);
+        listEstadoReceta.add(EstadoReceta.ANULADA);
+    }
+    
+    /**
+     * Listener para actualizar el estado de una receta
+     * @param recetaConEstado Objeto {@link Receta} con el estado actualizado
+     */
+    public void onEstadoSeleccionado(Receta recetaConEstado) {
+        recetaConEstado.setFarmaciaDispensadora(this.farmaciaActual);
+        recetaDAO.actualizar(recetaConEstado);
     }
 }
