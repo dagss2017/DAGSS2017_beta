@@ -1,8 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+* To change this license header, choose License Headers in Project Properties.
+* To change this template file, choose Tools | Templates
+* and open the template in the editor.
+*/
 package es.uvigo.esei.dagss.controladores.prescripcion;
 
 import es.uvigo.esei.dagss.controladores.administrador.GestionMedicosControlador;
@@ -42,13 +42,13 @@ public class PrescripcionControlador implements Serializable{
     Paciente pacienteActual;
     List<Medicamento> medicamentos;
     String filtroMedicamentos;
-
+    
     @Inject
     private AutenticacionControlador autenticacionControlador;
-
+    
     @Inject
     private PrescripcionDAO prescripcionDAO;
-
+    
     @Inject
     private PacienteDAO pacienteDAO;
     
@@ -77,7 +77,7 @@ public class PrescripcionControlador implements Serializable{
         setPrescripcionesPaciente(medicoControlador.getCitaActual().getPaciente());
         medicamentos = new ArrayList<Medicamento>();
     }
-
+    
     public String getFiltroMedicamentos(){
         return this.filtroMedicamentos;
     }
@@ -89,12 +89,12 @@ public class PrescripcionControlador implements Serializable{
     public void setFiltroMedicamentos(String filtro){
         this.filtroMedicamentos = filtro;
     }
-
+    
     public void setMedicoActual(Medico medico){
         this.medicoActual = medico;
     }
     
-     public void setPacienteActual(Paciente paciente){
+    public void setPacienteActual(Paciente paciente){
         this.pacienteActual = paciente;
     }
     
@@ -105,7 +105,7 @@ public class PrescripcionControlador implements Serializable{
     public void setPrescripcionesPaciente(Paciente paciente){
         this.prescripciones = prescripcionDAO.buscarPorPaciente(paciente);
     }
-
+    
     public List<Prescripcion> getListPrescripcionesPaciente() {
         return prescripciones;
     }
@@ -119,33 +119,40 @@ public class PrescripcionControlador implements Serializable{
         prescripcionActual.setMedico(medicoActual);
         prescripcionActual.setPaciente(pacienteActual);
         prescripcionActual.setFechaInicio( Calendar.getInstance().getTime());
+        filtroMedicamentos="";
+        medicamentos = new ArrayList<Medicamento>();
+        
     }
     
     private boolean fechasValidas() {
         return (prescripcionActual.getFechaInicio().before(prescripcionActual.getFechaFin()));
     }
-
+    
     public List<Medicamento> getMedicamentos(){
         return this.medicamentos;
     }
     
-    public void onFiltrarMedicamentos(String filtro){
-
+    public void onFiltrarMedicamentos(){
+        medicamentos = medicamentoDAO.buscarPorFiltro(filtroMedicamentos);
     }
-
+    
     public void onSelect(Medicamento medicamento){
         prescripcionActual.setMedicamento(medicamento);
     }
-       
+    
     public void doGuardarNuevo() {
-        if (fechasValidas()) {
-            // Crea  nuevo
-            prescripcionActual = prescripcionDAO.crear(prescripcionActual);
-            
-            // Actualiza lista 
-            this.prescripciones = prescripcionDAO.buscarPorPaciente(prescripcionActual.getPaciente());
-        } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "La fecha de finalización de la prescripción debe ser posterior a la fecha de inicio", ""));
+        if (prescripcionActual.getMedicamento()!=null){
+            if (fechasValidas()) {
+                // Crea  nuevo
+                prescripcionActual = prescripcionDAO.crear(prescripcionActual);
+                
+                // Actualiza lista
+                this.prescripciones = prescripcionDAO.buscarPorPaciente(prescripcionActual.getPaciente());
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "La fecha de finalización de la prescripción debe ser posterior a la fecha de inicio", ""));
+            }
+        }else{
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Debe seleccionar un medicamento para la nueva prescripción", ""));
         }
     }
 }
