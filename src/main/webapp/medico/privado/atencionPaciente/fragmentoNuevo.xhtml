@@ -11,17 +11,19 @@
                      rendered="#{not empty prescripcionControlador.prescripcionActual}" 
                      collapsible="false">
                 <b:row>
-                    <b:column span="6">
+                    <b:column span="4">
                         <h:outputLabel value="Fecha de Inicio" for="fechaInicio"/>
-                        <b:dateTimePicker id="fechaInicio" value="#{prescripcionControlador.prescripcionActual.fechaInicio}" locale="es_ES" show-time="false" allow-input-toggle="true" required="true"/>
+                        <b:dateTimePicker id="fechaInicio" value="#{prescripcionControlador.prescripcionActual.fechaInicio}" locale="es_ES" show-time="false" allow-input-toggle="true" />
                     </b:column>
-                    <b:column span="6">
+                    <b:column span="4">
                         <h:outputLabel value="Fecha de Finalización" for="fechaFin"/>
-                        <b:dateTimePicker id="fechaFin" value="#{prescripcionControlador.prescripcionActual.fechaFin}" locale="es_ES" show-time="false" allow-input-toggle="true" required="true"/>
+                        <b:dateTimePicker id="fechaFin" value="#{prescripcionControlador.prescripcionActual.fechaFin}" locale="es_ES" show-time="false" allow-input-toggle="true" />
+                    </b:column>
+                    <b:column span="4">
+                        <h:outputLabel value="Dosis" for="dosis"/>
+                        <b:touchSpin id="dosis" value="#{prescripcionControlador.prescripcionActual.dosis}" min="1" />
                     </b:column>
                 </b:row>
-                <h:outputLabel value="Dosis" for="dosis"/>
-                <b:touchSpin id="dosis" value="#{prescripcionControlador.prescripcionActual.dosis}" min="1" required="true" />
                 
                 <h:outputLabel value="Indicaciones" for="indicaciones"/>
                 <b:inputText id="indicaciones" value="#{prescripcionControlador.prescripcionActual.indicaciones}" />
