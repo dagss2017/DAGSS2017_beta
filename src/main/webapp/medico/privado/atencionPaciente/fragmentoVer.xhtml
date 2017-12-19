@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+
+    <ui:composition>
+        <h:form id="formularioVer">
+            <b:modal id="modalVer" class="modal-ver-class" title="Detalle Prescripción">
+                <b:panel title="Detalle Prescripción ID. #{prescripcionControlador.prescripcionActual.id}" 
+                         rendered="#{not empty prescripcionControlador.prescripcionActual}" 
+                         collapsible="false">
+                    <b:panelGrid columns="2">  
+                        <h:outputLabel value="Fecha de Inicio" for="prescripcion"/>
+                        <h:outputText id="fechaInicio" value="#{prescripcionControlador.prescripcionActual.fechaInicio}">
+                            <f:convertDateTime  locale="es_ES" timeZone="Europe/Madrid"/>
+                        </h:outputText>
+                        
+                        <h:outputLabel value="Fecha de finalización" for="prescripcion"/>
+                        <h:outputText id="fechaFin" value="#{prescripcionControlador.prescripcionActual.fechaFin}">
+                            <f:convertDateTime  locale="es_ES" timeZone="Europe/Madrid"/>
+                        </h:outputText>
+
+                        <h:outputLabel value="Dosis de la prescripción" for="prescripcion"/>
+                        <h:outputText id="dosis" value="#{prescripcionControlador.prescripcionActual.dosis}"/>
+
+                        <h:outputLabel value="Indicaciones" for="prescripcion"/>
+                        <h:outputText id="fecha" value="#{prescripcionControlador.prescripcionActual.indicaciones}"/>
+                        
+                        <h:outputLabel value="Nombre del medicamento" for="medicamento"/>
+                        <h:outputText id="nombre" value="#{prescripcionControlador.prescripcionActual.medicamento.nombre}"/>
+
+                        <h:outputLabel value="Fabricante" for="medicamento"/>
+                        <h:outputText id="fabricante" value="#{prescripcionControlador.prescripcionActual.medicamento.fabricante}"/>
+
+                        <h:outputLabel value="Familia" for="medicamento"/>
+                        <h:outputText id="familia" value="#{prescripcionControlador.prescripcionActual.medicamento.familia}"/>
+
+                        <h:outputLabel value="Principio activo" for="medicamento"/>
+                        <h:outputText id="principioActivo" value="#{prescripcionControlador.prescripcionActual.medicamento.principioActivo}"/>
+
+                        <h:outputLabel value="Nº de dosis del medicamento" for="medicamento"/>
+                        <h:outputText id="numeroDosis" value="#{prescripcionControlador.prescripcionActual.medicamento.numeroDosis}"/>
+                        
+                        <h:outputLabel value="Recetas" for="receta"/>
+                        <h:outputText id="recetas" value="...[próxima incidencia]..."/>
+                    </b:panelGrid>
+                </b:panel>
+                <f:facet name="footer">
+                    <b:button value="Cerrar" dismiss="modal"/>
+                </f:facet>
+            </b:modal>
+        </h:form>
+    </ui:composition>
+</html>
+

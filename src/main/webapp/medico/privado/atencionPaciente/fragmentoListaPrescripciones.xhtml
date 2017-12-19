@@ -7,36 +7,66 @@
       xmlns:b="http://bootsfaces.net/ui">
 
     <ui:composition>
-                <b:panel title="Detalle Cita  ID. #{gestionCitasControlador.citaActual.id}" 
-                         rendered="#{not empty gestionCitasControlador.citaActual}" 
-                         collapsible="false">
-                    <b:panelGrid columns="2">  
-                        <h:outputLabel value="Paciente" for="paciente"/>
-                        <h:outputText id="paciente" value="#{gestionCitasControlador.citaActual.paciente.apellidos}, #{gestionCitasControlador.citaActual.paciente.nombre}"/>
+        <b:panel title="Listado de prescripciones en vigor" collapsible="true">         
+           <b:dataTable id="tablaListado" class="tablaListadoClass"
+                        value="#{prescripcionControlador.listPrescripcionesPaciente}"
+                        var="prescripcion"                            
+                        page-length="5" page-length-menu="[5,10,20]"> 
+               <b:dataTableColumn label="Id">
+                   <h:outputText value="#{prescripcion.id}"/>
+               </b:dataTableColumn>
 
-                        <h:outputLabel value="Médico" for="medico"/>
-                        <h:outputText id="medico" value="#{gestionCitasControlador.citaActual.medico.apellidos}, #{gestionCitasControlador.citaActual.medico.nombre}"/>
+               <b:dataTableColumn label="Inicio" orderable="true">
+                   <h:outputText value="#{prescripcion.fechaInicio}">
+                       <f:convertDateTime pattern="dd/MM/Y" locale="es_ES" timeZone="Europe/Madrid"/>
+                   </h:outputText>
+               </b:dataTableColumn>
 
-                        <h:outputLabel value="Centro Salud" for="centrosalud"/>
-                        <h:outputText id="centrosalud" value="#{gestionCitasControlador.citaActual.medico.centroSalud.nombre}, #{gestionCitasControlador.citaActual.medico.centroSalud.direccion.localidad} (#{gestionCitasControlador.citaActual.medico.centroSalud.direccion.provincia})"/>
+               <b:dataTableColumn label="Fin">
+                   <h:outputText value="#{prescripcion.fechaFin}" >
+                   <f:convertDateTime pattern="dd/MM/Y" locale="es_ES" timeZone="Europe/Madrid"/>
+                   </h:outputText>
+               </b:dataTableColumn>                    
 
-                        <h:outputLabel value="Fecha" for="fecha"/>
-                        <h:outputText id="fecha" value="#{gestionCitasControlador.citaActual.fecha}">
-                            <f:convertDateTime pattern="dd/MM/yyyy" locale="es_ES" timeZone="Europe/Madrid"/>
-                        </h:outputText>
+               <b:dataTableColumn label="Dosis" orderable="false">
+                   <h:outputText value="#{prescripcion.dosis}"/>
+               </b:dataTableColumn>
 
-                        <h:outputLabel value="Hora" for="hora"/>
-                        <h:outputText id="hora" value="#{gestionCitasControlador.citaActual.hora}">
-                            <f:convertDateTime pattern="HH:mm" locale="es_ES" timeZone="Europe/Madrid"/>
-                        </h:outputText>
+               <b:dataTableColumn label="Medicamento">
+                   <h:outputText value="#{prescripcion.medicamento.nombre}"/>
+               </b:dataTableColumn>
 
-                        <h:outputLabel value="Duración" for="duracion"/>
-                        <h:outputText id="duracion" value="#{gestionCitasControlador.citaActual.duracion}"/>
+               <b:dataTableColumn label="Principio activo">
+                   <h:outputText value="#{prescripcion.medicamento.principioActivo}"/>
+               </b:dataTableColumn>
+               
+               <b:dataTableColumn label="Familia">
+                   <h:outputText value="#{prescripcion.medicamento.familia}"/>
+               </b:dataTableColumn>
 
-                        <h:outputLabel value="Estado" for="estado"/>
-                        <h:outputText id="estado" value="#{gestionCitasControlador.citaActual.estado}"/>
-                    </b:panelGrid>
-                </b:panel>
+               <b:dataTableColumn label="Fabricante">
+                   <h:outputText value="#{prescripcion.medicamento.fabricante}"/>
+               </b:dataTableColumn>
+
+               <b:dataTableColumn label="Nº Dosis">
+                   <h:outputText value="#{prescripcion.medicamento.numeroDosis}"/>
+               </b:dataTableColumn>
+
+               <b:dataTableColumn label="" orderable="false">
+                   <b:commandButton id="botonVer" icon-awesome="eye" tooltip="Ver" ajax="true"  
+                        actionListener="#{prescripcionControlador.doVer(prescripcion)}" 
+                        update=":formularioVer:modalVer"
+                        oncomplete="$('.modal-ver-class').modal('show')" />
+               </b:dataTableColumn>  
+           </b:dataTable>
+                <f:facet name="footer">                     
+                    <b:commandButton id="botonNuevo" icon-awesome="plus" value="Crear Prescripción" tooltip="Nueva Prescripción" ajax="true"
+                        actionListener="#{prescripcionControlador.doNuevo()}" 
+                        update=":formularioNuevo:modalNuevo"
+                        oncomplete="$('.modal-nuevo-class').modal('show')"/>
+                </f:facet>
+       </b:panel>
     </ui:composition>
+
 </html>
 

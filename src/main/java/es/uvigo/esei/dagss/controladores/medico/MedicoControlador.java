@@ -5,6 +5,7 @@ package es.uvigo.esei.dagss.controladores.medico;
 
 import es.uvigo.esei.dagss.controladores.autenticacion.AutenticacionControlador;
 import es.uvigo.esei.dagss.controladores.administrador.GestionCitasControlador;
+import es.uvigo.esei.dagss.controladores.prescripcion.PrescripcionControlador;
 import es.uvigo.esei.dagss.dominio.daos.CitaDAO;
 import es.uvigo.esei.dagss.dominio.daos.MedicoDAO;
 import es.uvigo.esei.dagss.dominio.entidades.Cita;
@@ -35,6 +36,7 @@ public class MedicoControlador implements Serializable {
     private String numeroColegiado;
     private String password;
     private List<Cita> listCitasMedico;
+    private Cita citaActual;
 
     @Inject
     private AutenticacionControlador autenticacionControlador;
@@ -42,6 +44,9 @@ public class MedicoControlador implements Serializable {
     @Inject
     private GestionCitasControlador gestionCitasControlador;
 
+    @Inject
+    private PrescripcionControlador prescripcionControlador;
+    
     @EJB
     private MedicoDAO medicoDAO;
 
@@ -65,6 +70,14 @@ public class MedicoControlador implements Serializable {
     
     public List<Cita> getListCitasMedico(){
         return this.listCitasMedico;
+    }
+
+    public Cita getCitaActual() {
+        return citaActual;
+    }
+
+    public void setCitaActual(Cita citaActual) {
+        this.citaActual = citaActual;
     }
 
     public void setNumeroColegiado(String numeroColegiado) {
@@ -124,11 +137,24 @@ public class MedicoControlador implements Serializable {
     }
 
     //Acciones
+    /**
+     * Acción de Mostrar una cita
+     * 
+     * @param cita Cita a mostrar
+     * @return Formulario de Atención al paciente
+     */
     public String doShowCita(Cita cita) {
-        gestionCitasControlador.setCitaActual(cita);
+        citaActual = cita;
         return "/medico/privado/atencionPaciente/atencionPaciente";
     }
     
+    /**
+     * Acción de mostrar / ocultar botón de Mostrar cita.
+     * Se muestra el botón si la cita está en estado PLANIFICADA
+     * 
+     * @param cita Cita para resolver la acción
+     * @return True si el estado de la cita es PLANIFICADA, FALSE en caso contrario
+     */
     public boolean doEnableButtonShowCita(Cita cita) {
         return (cita.getEstado()==EstadoCita.PLANIFICADA);
     }
@@ -138,7 +164,7 @@ public class MedicoControlador implements Serializable {
      * @return List<Citas> lista de citas
      */
     public String dolistarCitasMedico() {
-        this.listCitasMedico = medicoDAO.buscarCitasPorPaciente(medicoActual);
+        this.listCitasMedico = medicoDAO.buscarCitasPorMedico(medicoActual);
         return "/medico/privado/agenda/listadoCitas";   
     }
     
