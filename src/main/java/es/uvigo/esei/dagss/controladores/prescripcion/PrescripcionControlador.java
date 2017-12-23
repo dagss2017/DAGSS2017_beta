@@ -144,40 +144,7 @@ public class PrescripcionControlador implements Serializable{
     public List<Prescripcion> getListPrescripcionesPaciente() {
         return prescripciones;
     }
-    
-    /**
-     * Establece la prescripción seleccionada como Actual para 
-     * mostrar un formulario modal con el detalle de la prescripción seleccionada
-     * @param prescripcion Prescripcion como Prescripcion
-     */
-    public void doVer(Prescripcion prescripcion) {
-        this.prescripcionActual = prescripcion;   // Otra alternativa: volver a refrescarlos desde el DAO
-    }
-    
-    /**
-     * Establece los valores principales de la prescripción y resetea otros
-     * valores/variables para mostrar un formulario modal vacío 
-     * para crear una nueva prescripción
-     */
-    public void doNuevo() {
-        prescripcionActual = new Prescripcion(); // Prescripcion
-        prescripcionActual.setMedico(medicoActual);
-        prescripcionActual.setPaciente(pacienteActual);
-        prescripcionActual.setFechaInicio( Calendar.getInstance().getTime());
-        filtroMedicamentos="";
-        medicamentos = new ArrayList<Medicamento>();
-        
-    }
-    
-    /**
-     * Elimina una prescripción dada y actualiza la lista de prescripciones
-     * @param prescipcion Prescipcion a eliminar como Prescripcion
-     */
-    public void doEliminar(Prescripcion prescipcion) {
-        prescripcionDAO.eliminar(prescipcion);
-        setPrescripcionesPaciente(medicoControlador.getCitaActual().getPaciente()); // Actualizar lista de prescripcioness
-    }
-    
+      
     /**
      * Comprueba si la fecha de Fin es posterior a la fecha de inicio
      * @return True si las fechas son válidas, FALSE en caso contrario
@@ -213,7 +180,51 @@ public class PrescripcionControlador implements Serializable{
     public void onSelect(Medicamento medicamento){
         prescripcionActual.setMedicamento(medicamento);
     }
+
+    /**
+     * Establece la prescripción seleccionada como Actual para 
+     * mostrar un formulario modal con el detalle de la prescripción seleccionada
+     * @param prescripcion Prescripcion como Prescripcion
+     */
+    public void doVer(Prescripcion prescripcion) {
+        this.prescripcionActual = prescripcion;   // Otra alternativa: volver a refrescarlos desde el DAO
+    }
     
+    /**
+     * Establece los valores principales de la prescripción y resetea otros
+     * valores/variables para mostrar un formulario modal vacío 
+     * para crear una nueva prescripción
+     */
+    public void doNuevo() {
+        prescripcionActual = new Prescripcion(); // Prescripcion
+        prescripcionActual.setMedico(medicoActual);
+        prescripcionActual.setPaciente(pacienteActual);
+        prescripcionActual.setFechaInicio( Calendar.getInstance().getTime());
+        filtroMedicamentos="";
+        medicamentos = new ArrayList<Medicamento>();
+        
+    }
+    
+    /**
+     * Editar la prescripcion seleccionada
+     * @param prescripcion Prescripción a editar como Prescripcion
+     */
+    public void doEditar(Prescripcion prescripcion) {
+        prescripcionActual = prescripcion;   // Otra alternativa: volver a refrescarlos desde el DAO
+        medicamentos= new ArrayList<Medicamento>();
+        medicamentos.add(prescripcionActual.getMedicamento());
+        filtroMedicamentos = "";
+    }
+    
+    /**
+     * Elimina una prescripción dada y actualiza la lista de prescripciones
+     * @param prescipcion Prescipcion a eliminar como Prescripcion
+     */
+    public void doEliminar(Prescripcion prescipcion) {
+        prescripcionDAO.eliminar(prescipcion);
+        setPrescripcionesPaciente(medicoControlador.getCitaActual().getPaciente()); // Actualizar lista de prescripcioness
+    }
+        
     /**
      * Valida los datos insertados y Añade una prescripcion nueva
      */
@@ -231,5 +242,38 @@ public class PrescripcionControlador implements Serializable{
         }else{
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Debe seleccionar un medicamento para la nueva prescripción", ""));
         }
+    }
+    
+    public void doGuardarEditado() {
+       /* if (prescripcionActual.getMedicamento()!=null){
+            if (fechasValidas()) {
+                // Crea  nuevo
+                prescripcionActual = prescripcionDAO.actualizar(prescripcionActual);
+                // Actualiza lista
+                this.prescripciones = prescripcionDAO.buscarPorPaciente(prescripcionActual.getPaciente());
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "La fecha de finalización de la prescripción debe ser posterior a la fecha de inicio", ""));
+            }
+        }else{
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Debe seleccionar un medicamento para la nueva prescripción", ""));
+        }*/
+/*        if (passwordsVacios()) { // No modifica password
+            // Actualiza 
+            medicoActual = medicoDAO.actualizar(medicoActual);
+
+            // Actualiza lista 
+            medicos = medicoDAO.buscarTodos();
+        } else if (password1.equals(password2)) {
+            // Actualiza
+            medicoActual = medicoDAO.actualizar(medicoActual);
+
+            // Actualiza lista a mostrar
+            medicos = medicoDAO.buscarTodos();
+
+            // Ajustar su password 
+            usuarioDAO.actualizarPassword(medicoActual.getId(), password1);
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Passwords incorrectos (no coincidencia)", ""));
+        }*/
     }
 }
