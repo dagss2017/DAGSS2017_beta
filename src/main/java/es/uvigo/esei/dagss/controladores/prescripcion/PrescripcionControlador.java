@@ -168,7 +168,10 @@ public class PrescripcionControlador implements Serializable{
      * por el patrón dado 
      */
     public void onFiltrarMedicamentos(){
+        prescripcionActual.setMedicamento(null);
         medicamentos = medicamentoDAO.buscarPorFiltro(filtroMedicamentos);
+        if (medicamentos.size()==1)
+            prescripcionActual.setMedicamento(medicamentos.get(0));
     }
     
     /**
@@ -201,8 +204,7 @@ public class PrescripcionControlador implements Serializable{
         prescripcionActual.setPaciente(pacienteActual);
         prescripcionActual.setFechaInicio( Calendar.getInstance().getTime());
         filtroMedicamentos="";
-        medicamentos = new ArrayList<Medicamento>();
-        
+        medicamentos = new ArrayList<Medicamento>();       
     }
     
     /**
@@ -244,36 +246,21 @@ public class PrescripcionControlador implements Serializable{
         }
     }
     
+    /**
+     * Valida datos y Actualiza la prescripción actual
+     */
     public void doGuardarEditado() {
-       /* if (prescripcionActual.getMedicamento()!=null){
+        if (prescripcionActual.getMedicamento()!=null){
             if (fechasValidas()) {
-                // Crea  nuevo
+                // Actualizar 
                 prescripcionActual = prescripcionDAO.actualizar(prescripcionActual);
-                // Actualiza lista
-                this.prescripciones = prescripcionDAO.buscarPorPaciente(prescripcionActual.getPaciente());
             } else {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "La fecha de finalización de la prescripción debe ser posterior a la fecha de inicio", ""));
             }
         }else{
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Debe seleccionar un medicamento para la nueva prescripción", ""));
-        }*/
-/*        if (passwordsVacios()) { // No modifica password
-            // Actualiza 
-            medicoActual = medicoDAO.actualizar(medicoActual);
-
-            // Actualiza lista 
-            medicos = medicoDAO.buscarTodos();
-        } else if (password1.equals(password2)) {
-            // Actualiza
-            medicoActual = medicoDAO.actualizar(medicoActual);
-
-            // Actualiza lista a mostrar
-            medicos = medicoDAO.buscarTodos();
-
-            // Ajustar su password 
-            usuarioDAO.actualizarPassword(medicoActual.getId(), password1);
-        } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Passwords incorrectos (no coincidencia)", ""));
-        }*/
+        }
+        // Actualiza lista
+        this.prescripciones = prescripcionDAO.buscarPorPaciente(prescripcionActual.getPaciente());
     }
 }
