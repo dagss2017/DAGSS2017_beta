@@ -57,6 +57,13 @@
                         actionListener="#{prescripcionControlador.doVer(prescripcion)}" 
                         update=":formularioVer:modalVer"
                         oncomplete="$('.modal-ver-class').modal('show')" />
+                    <b:commandButton id="botonEditar" icon-awesome="pencil" tooltip="Editar" ajax="true" 
+                                     actionListener="#{prescripcionControlador.doEditar(prescripcion)}" 
+                        update=":formularioEditar:modalEditar"
+                        oncomplete="$('.modal-editar-class').modal('show')"/>
+                   <b:commandButton id="botonEliminar" icon-awesome="trash" tooltip="Eliminar" ajax="true"  
+                        actionListener="#{prescripcionControlador.doEliminar(prescripcion)}" 
+                        update="@(.tablaListadoClass)"/>
                </b:dataTableColumn>  
            </b:dataTable>
                 <f:facet name="footer">                     
