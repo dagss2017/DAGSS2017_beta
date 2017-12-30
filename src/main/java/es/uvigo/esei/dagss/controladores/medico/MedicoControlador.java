@@ -12,6 +12,7 @@ import es.uvigo.esei.dagss.dominio.entidades.Cita;
 import es.uvigo.esei.dagss.dominio.entidades.Medico;
 import es.uvigo.esei.dagss.dominio.entidades.TipoUsuario;
 import es.uvigo.esei.dagss.dominio.entidades.EstadoCita;
+import es.uvigo.esei.dagss.dominio.entidades.Receta;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
@@ -36,6 +37,7 @@ public class MedicoControlador implements Serializable {
     private String numeroColegiado;
     private String password;
     private List<Cita> listCitasMedico;
+    private List<EstadoCita> listEstadoCita;
     private Cita citaActual;
 
     @Inject
@@ -98,6 +100,10 @@ public class MedicoControlador implements Serializable {
 
     public void setMedicoActual(Medico medicoActual) {
         this.medicoActual = medicoActual;
+    }
+
+    public List<EstadoCita> getListEstadoCita() {
+        return listEstadoCita;
     }
 
     private boolean parametrosAccesoInvalidos() {
@@ -165,7 +171,20 @@ public class MedicoControlador implements Serializable {
      */
     public String dolistarCitasMedico() {
         this.listCitasMedico = medicoDAO.buscarCitasPorMedico(medicoActual);
+        crearListaEstadosCita();
         return "/medico/privado/agenda/listadoCitas";   
     }
-    
+        
+    /**
+     * Construye una lista con los posibles estados de una cita.
+     * Estos estados serán mostrados en la vista como un elemento
+     * de dropdown para poder cambiar el estado de cada cita.
+     */
+    private void crearListaEstadosCita() {
+        listEstadoCita = new ArrayList<>();
+        listEstadoCita.add(EstadoCita.ANULADA);
+        listEstadoCita.add(EstadoCita.AUSENTE);
+        listEstadoCita.add(EstadoCita.COMPLETADA);
+        listEstadoCita.add(EstadoCita.PLANIFICADA);
+    }
 }
