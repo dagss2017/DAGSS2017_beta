@@ -51,6 +51,9 @@ public class MedicoControlador implements Serializable {
     
     @EJB
     private MedicoDAO medicoDAO;
+    
+    @EJB
+    private CitaDAO citaDAO;
 
     /**
      * Creates a new instance of AdministradorControlador
@@ -173,6 +176,14 @@ public class MedicoControlador implements Serializable {
         this.listCitasMedico = medicoDAO.buscarCitasPorMedico(medicoActual);
         crearListaEstadosCita();
         return "/medico/privado/agenda/listadoCitas";   
+    }
+    
+    /**
+     * L istener para actualizar el estado de una cita
+     * @param citaConEstado Objeto {@link Cita} con el estado actualizado
+     */
+    public void onEstadoSeleccionado(Cita citaConEstado) {
+        citaDAO.actualizar(citaConEstado);
     }
         
     /**

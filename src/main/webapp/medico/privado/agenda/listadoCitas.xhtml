@@ -56,7 +56,8 @@
                                     value="#{cita.estado}" 
                                     colMd="2" 
                                     labelColMd="2" 
-                                    onchange="ajax:medicoControlador.onEstadoSeleccionado(cita)">
+                                    onchange="ajax:medicoControlador.onEstadoSeleccionado(cita);"
+                                    update="@(.tablaListadoClass)">
                                     <f:selectItems value="#{medicoControlador.listEstadoCita}" var="c" itemValue="#{c}" itemLabel="#{c}"/>
                                 </b:selectOneMenu>
                             </b:dataTableColumn>
