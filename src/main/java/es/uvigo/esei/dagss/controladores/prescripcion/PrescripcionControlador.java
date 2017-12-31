@@ -5,7 +5,6 @@
 */
 package es.uvigo.esei.dagss.controladores.prescripcion;
 
-import es.uvigo.esei.dagss.controladores.administrador.GestionMedicosControlador;
 import es.uvigo.esei.dagss.controladores.autenticacion.AutenticacionControlador;
 import es.uvigo.esei.dagss.controladores.medico.MedicoControlador;
 import es.uvigo.esei.dagss.dominio.daos.MedicamentoDAO;
@@ -17,21 +16,20 @@ import es.uvigo.esei.dagss.dominio.entidades.Medicamento;
 import es.uvigo.esei.dagss.dominio.entidades.Medico;
 import es.uvigo.esei.dagss.dominio.entidades.Paciente;
 import es.uvigo.esei.dagss.dominio.entidades.Prescripcion;
+import es.uvigo.esei.dagss.servicios.prescripcion.PrescripcionServicio;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-/**
- *
- * @author uxiog
- */
+
 @Named(value = "prescripcionControlador")
 @SessionScoped
 public class PrescripcionControlador implements Serializable{
@@ -60,8 +58,12 @@ public class PrescripcionControlador implements Serializable{
     
     @Inject
     private RecetaDAO recetaDAO;
+    
     @Inject
     private MedicoControlador medicoControlador;
+    
+    @EJB
+    private PrescripcionServicio prescripcionServicio;
     
     /**
      * Creates a new instance of PrescripcionControlador
@@ -75,7 +77,7 @@ public class PrescripcionControlador implements Serializable{
         this.medicoActual = medicoControlador.getMedicoActual();
         this.pacienteActual = medicoControlador.getCitaActual().getPaciente();
         setPrescripcionesPaciente(medicoControlador.getCitaActual().getPaciente());
-        medicamentos = new ArrayList<Medicamento>();
+        medicamentos = new ArrayList<>();
     }
     
     
@@ -204,7 +206,7 @@ public class PrescripcionControlador implements Serializable{
         prescripcionActual.setPaciente(pacienteActual);
         prescripcionActual.setFechaInicio( Calendar.getInstance().getTime());
         filtroMedicamentos="";
-        medicamentos = new ArrayList<Medicamento>();       
+        medicamentos = new ArrayList<>();       
     }
     
     /**
@@ -213,7 +215,7 @@ public class PrescripcionControlador implements Serializable{
      */
     public void doEditar(Prescripcion prescripcion) {
         prescripcionActual = prescripcion;   // Otra alternativa: volver a refrescarlos desde el DAO
-        medicamentos= new ArrayList<Medicamento>();
+        medicamentos= new ArrayList<>();
         medicamentos.add(prescripcionActual.getMedicamento());
         filtroMedicamentos = "";
     }
@@ -235,6 +237,7 @@ public class PrescripcionControlador implements Serializable{
             if (fechasValidas()) {
                 // Crea  nuevo
                 prescripcionActual = prescripcionDAO.crear(prescripcionActual);
+                planificarRecetas(prescripcionActual);
                 
                 // Actualiza lista
                 this.prescripciones = prescripcionDAO.buscarPorPaciente(prescripcionActual.getPaciente());
@@ -262,5 +265,14 @@ public class PrescripcionControlador implements Serializable{
         }
         // Actualiza lista
         this.prescripciones = prescripcionDAO.buscarPorPaciente(prescripcionActual.getPaciente());
+    }
+    
+    /**
+     * Ejecutar planificador de recetas
+     * @param prescripcion Prescripción a planificar
+     */
+    private void planificarRecetas(Prescripcion prescripcion) {
+        prescripcionServicio.crearPlanificador(PrescripcionServicio.PLANIFICADOR_SEMANAL);
+        prescripcionServicio.planificar(prescripcion);
     }
 }
