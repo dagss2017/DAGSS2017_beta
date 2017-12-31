@@ -16,10 +16,11 @@ import java.util.List;
 import javax.ejb.Stateless;
 
 @Stateless
-public class PlanificadorRecetasSemanal {
+public class PlanificadorRecetasSemanal implements PlanificadorRecetas{
     
     private final int TIEMPO_CALCULO = 7;
 
+    @Override
     public List<Receta> planificar(Prescripcion prescripcion) {
         List<Receta> recipes = new ArrayList<>();
         
