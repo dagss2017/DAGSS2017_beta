@@ -141,7 +141,9 @@ public class FarmaciaControlador implements Serializable {
      * @return True si la receta es válida
      */
     public boolean isRecetaValida(Receta receta) {
-        return receta.getFinValidez().after(new Date());
+        Date today = new Date();
+        return receta.getFinValidez().after(today) &&
+                receta.getInicioValidez().before(today);
     }
     
     /**
