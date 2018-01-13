@@ -51,9 +51,15 @@
                             <b:dataTableColumn label="Duración" orderable="false">
                                 <h:outputText value="#{cita.duracion} "/>
                             </b:dataTableColumn>
-
                             <b:dataTableColumn label="Estado">
-                                <h:outputText value="#{cita.estado} "/>
+                                <b:selectOneMenu 
+                                    value="#{cita.estado}" 
+                                    colMd="2" 
+                                    labelColMd="2" 
+                                    onchange="ajax:medicoControlador.onEstadoSeleccionado(cita);"
+                                    update="@(.tablaListadoClass)">
+                                    <f:selectItems value="#{medicoControlador.listEstadoCita}" var="c" itemValue="#{c}" itemLabel="#{c}"/>
+                                </b:selectOneMenu>
                             </b:dataTableColumn>
 
                             <b:dataTableColumn label="" orderable="false">
