@@ -193,9 +193,7 @@ public class MedicoControlador implements Serializable {
      */
     private void crearListaEstadosCita() {
         listEstadoCita = new ArrayList<>();
-        listEstadoCita.add(EstadoCita.ANULADA);
         listEstadoCita.add(EstadoCita.AUSENTE);
         listEstadoCita.add(EstadoCita.COMPLETADA);
-        listEstadoCita.add(EstadoCita.PLANIFICADA);
     }
 }
